@@ -7,6 +7,8 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import tv.own.owntv.core.customize.toBackupRules
+import tv.own.owntv.core.customize.restoreLiveRules
 import tv.own.owntv.core.customize.CustomizationStore
 import tv.own.owntv.core.database.dao.ProfileDao
 import tv.own.owntv.core.database.dao.SourceDao
@@ -107,7 +109,7 @@ class BackupManager(
             val seal: ((String) -> JSONObject)? = key?.let { k -> { plain -> BackupCrypto.encrypt(k, plain) } }
 
             val root = JSONObject().apply {
-                put("version", 24) // v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
+                put("version", 25) // v25: dynamic liveCategoryRules and deleted custom-category UUIDs. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
                 put("sections", JSONArray().apply { sections.forEach { put(it.name) } })
                 if (salt != null) put("crypto", BackupCrypto.cryptoBlock(salt))
                 // Ticked profiles always ride (backup is profile-based); restore needs SOURCES to apply them.
@@ -131,6 +133,8 @@ class BackupManager(
                     settings.currentDefaultSourceId()?.takeIf { it in linkedSourceIds }?.let { put("defaultSourceId", it) }
                 }
                 if (Section.CUSTOMIZE in sections) {
+                    put("liveCategoryRules", db.customCategoryDao().allLiveRules()
+                        .filter { it.profileId in pids && it.sourceId in linkedSourceIds }.toBackupRules())
                     // Customization entries are keyed "cust_<profileId>_<TYPE>" — keep ticked profiles only.
                     put(
                         "customizations",
@@ -605,7 +609,8 @@ class BackupManager(
                 root.optJSONObject("customizations")?.keys()?.hasNext() == true ||
                 root.optJSONObject("homeConfigs")?.keys()?.hasNext() == true ||
                 root.optJSONObject("hideNewCategories")?.keys()?.hasNext() == true ||
-                root.optString("tmdbOverrides").isNotBlank()
+                root.optString("tmdbOverrides").isNotBlank() ||
+                (root.optJSONArray("liveCategoryRules")?.length() ?: 0) > 0
             ) out += Section.CUSTOMIZE
             if (root.optJSONObject("settings")?.keys()?.hasNext() == true) out += Section.SETTINGS
             root.optJSONArray("userData")?.let { arr ->
@@ -1048,6 +1053,9 @@ class BackupManager(
             }
 
             if (Section.CUSTOMIZE in sections) {
+                root.optJSONArray("liveCategoryRules")?.let { rules ->
+                    db.customCategoryDao().mergeLiveRules(rules.restoreLiveRules(profileIdMap, sourceIdMap))
+                }
                 root.optJSONObject("customizations")?.let { o ->
                     // Remap "cust_<pid>_<TYPE>" keys and the "<sourceId>:…" content keys inside each
                     // value, then MERGE — other profiles' customizations stay untouched.

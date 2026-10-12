@@ -151,6 +151,19 @@ interface EpgDao {
     )
     suspend fun searchTitles(query: String, from: Long, to: Long, limit: Int): List<EpgProgrammeEntity>
 
+    /** Match-shaped titles only, without descriptions. Sports reads bounded channel batches and
+     * processes them immediately instead of materialising an entire week's global guide. */
+    @Query(
+        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash, " +
+            "NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode " +
+            "FROM epg_programmes WHERE epgChannelId IN (:epgKeys) AND startMs > :from - 86400000 " +
+            "AND startMs < :to AND stopMs > :from AND (title LIKE '% vs %' OR title LIKE '% vs. %' " +
+            "OR title LIKE '% v %' OR title LIKE '% v. %' OR title LIKE '% versus %' " +
+            "OR title LIKE '% - %' OR title LIKE '% – %' OR title LIKE '% — %') ORDER BY epgChannelId, startMs",
+    )
+    suspend fun sportsMatchSummaries(epgKeys: List<String>, from: Long, to: Long): List<EpgProgrammeEntity>
+
+
     /** How many programmes are stored for these sources (to tell "no guide yet" from "empty window"). */
     @Query("SELECT COUNT(*) FROM epg_programmes WHERE sourceId IN (:sourceIds)")
     suspend fun countForSources(sourceIds: List<Long>): Int

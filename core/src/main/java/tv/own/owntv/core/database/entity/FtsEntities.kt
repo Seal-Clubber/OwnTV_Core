@@ -10,7 +10,7 @@ import androidx.room.Fts4
  */
 
 @Entity(tableName = "channels_fts")
-@Fts4(contentEntity = ChannelEntity::class)
+@Fts4(contentEntity = ChannelEntity::class, tokenizer = androidx.room.FtsOptions.TOKENIZER_UNICODE61)
 data class ChannelFtsEntity(val name: String)
 
 @Entity(tableName = "movies_fts")

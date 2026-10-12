@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_add_title">Add to custom category…</string>
+    <string name="category_add_description">Choose a category or create one. Provider groups stay available and new channels join automatically.</string>
+    <string name="category_add_preview">Preview channels</string>
+    <string name="category_add_saving">Saving…</string>
+    <string name="category_add_failed">The catalog changed or the category could not be saved. Please try again.</string>
+    <string name="category_add_select">Select for merge</string>
+    <string name="category_add_select_all">Select all provider groups</string>
+    <string name="category_add_clear">Clear selection</string>
+    <string name="category_add_manage">Sources and exclusions — remove a source or restore an excluded channel</string>
+    <string name="category_add_unavailable">Unavailable — kept for future refreshes</string>
+    <string name="category_add_selection_scope">Selects the provider groups shown by the current search and visibility filters.</string>
+</resources>

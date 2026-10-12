@@ -119,6 +119,7 @@
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	lastSyncAt
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	lastUsedAt
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	links
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveCategoryRules
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveEnginePreference
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveExoUrls
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveLatencyCustomSecs
@@ -476,12 +477,33 @@
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	catOrder
 2	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_
 1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_${type.name}
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	deletedCustomCats
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	epgMatch
 2	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	epgShift
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	hiddenCats
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	hiddenItems
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	itemNames
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	owntv_customizations
+1	sql	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	"$it"*
+1	sql	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	"__no_search_token__"
+1	sql	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	AND
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	CHANNEL
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	EXCLUDE
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	GROUP
+1	regex	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	[\\p{L}\\p{N}]+
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	active
+3	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	at
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	ctx
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	id:
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	id:$it
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	included
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	name
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	name:
+1	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	name:$originalName
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	p
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	ref
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	src
+2	json	core/src/main/java/tv/own/owntv/core/customize/LiveCategoryRules.kt	type
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	\0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	$msg — no canonical indexes for ${state.table}, indexes were dropped and NOT restored
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	+ FTS
@@ -579,6 +601,9 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_channels_sourceId` ON `channels` (`sourceId`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_content_order_profileId_mediaType_contextKey` ON `content_order` (`profileId`, `mediaType`, `contextKey`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_content_order_profileId` ON `content_order` (`profileId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_custom_category_live_rules_profileId_contextKey` ON `custom_category_live_rules` (`profileId`, `contextKey`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_custom_category_live_rules_profileId` ON `custom_category_live_rules` (`profileId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_custom_category_live_rules_sourceId_ruleType_referenceKey` ON `custom_category_live_rules` (`sourceId`, `ruleType`, `referenceKey`)
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_epg_channels_normName` ON `epg_channels` (`normName`)
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_epg_channels_sourceId` ON `epg_channels` (`sourceId`)
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_epg_programmes_epgChannelId_startMs` ON `epg_programmes` (`epgChannelId`, `startMs`)
@@ -639,6 +664,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_user_data_tombstones_profileId` ON `user_data_tombstones` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `catalog_backfill` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `content_order` (
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `custom_category_live_rules` (`profileId` INTEGER NOT NULL, `contextKey` TEXT NOT NULL, `sourceId` INTEGER NOT NULL, `ruleType` TEXT NOT NULL, `referenceKey` TEXT NOT NULL, `displayName` TEXT NOT NULL, `included` INTEGER NOT NULL, `active` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`profileId`, `contextKey`, `sourceId`, `ruleType`, `referenceKey`), FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `epg_channels` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sourceId` INTEGER NOT NULL, `epgChannelId` TEXT NOT NULL, `displayName` TEXT)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `epg_programmes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sourceId` INTEGER NOT NULL, `epgChannelId` TEXT NOT NULL, `startMs` INTEGER NOT NULL, `stopMs` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `metadata_cache` (
@@ -670,10 +696,12 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_provider_programs_profileId_surface_mediaType_groupId` ON `tv_provider_programs` (`profileId`, `surface`, `mediaType`, `groupId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_user_data_tombstones_profileId_kind_identity`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE VIRTUAL TABLE IF NOT EXISTS `channels_fts` USING FTS4(`name` TEXT NOT NULL, content=`channels`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE VIRTUAL TABLE IF NOT EXISTS `channels_fts` USING FTS4(`name` TEXT NOT NULL, tokenize=unicode61, content=`channels`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE VIRTUAL TABLE IF NOT EXISTS `episodes_fts` USING FTS4(`name` TEXT NOT NULL, content=`episodes`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE VIRTUAL TABLE IF NOT EXISTS `movies_fts` USING FTS4(`name` TEXT NOT NULL, content=`movies`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE VIRTUAL TABLE IF NOT EXISTS `series_fts` USING FTS4(`name` TEXT NOT NULL, content=`series`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	DELETE FROM `epg_programmes`
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	DROP TABLE IF EXISTS `channels_fts`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	DROP TABLE IF EXISTS `epg_channels`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	DROP TABLE IF EXISTS `epg_programmes`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`cacheId`) REFERENCES `subtitle_cache`(`id`) ON DELETE CASCADE
@@ -687,6 +715,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`sourceId`) REFERENCES `trending_snapshots`(`sourceId`) ON UPDATE NO ACTION ON DELETE CASCADE
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	IF NOT EXISTS `
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	INSERT INTO `$name`(`$name`) VALUES('rebuild')
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	INSERT INTO `channels_fts` (`channels_fts`) VALUES ('rebuild')
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	INTEGER
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON UPDATE NO ACTION ON DELETE CASCADE )
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `$table` (`sourceId`, `titleSignature`, `parsedYear`)
@@ -961,6 +990,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, cat.name AS categoryName FROM channels c
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, h.watchedAt FROM channels c
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM channels
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT id, sourceId, categoryId, name, epgChannelId, remoteId FROM channels WHERE sourceId IN (:sourceIds) ORDER BY sourceId, sortOrder, name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND categoryId IN (:categoryIds) AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL LIMIT 1
@@ -1006,24 +1036,56 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	SELECT o.profileId AS profileId, o.mediaType AS mediaType, o.itemId AS itemId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	o.contextKey AS contextKey, o.position AS position,
-4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
+3	empty	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	\0
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = :contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = k.contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = k.contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = k.contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	) ELSE (SELECT COUNT(*) FROM custom_category_members m LEFT JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id LEFT JOIN series s ON m.mediaType = 'SERIES' AND m.itemId = s.id WHERE m.profileId = :profileId AND m.mediaType = :type AND m.contextKey = :contextKey AND COALESCE(mv.sourceId, s.sourceId) IN (:sourceIds)) END
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (c.name LIKE '%' || :query || '%' OR c.id IN (SELECT rowid FROM channels_fts WHERE channels_fts MATCH :ftsQuery))
+1	protocol	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	CHANNEL
+1	assertion	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	Channel changed; select it again.
+2	protocol	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	EXCLUDE
+1	protocol	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	GROUP
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	GROUP BY k.contextKey
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = s.id AND m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = mv.id AND o.profileId = :profileId AND o.mediaType = 'MOVIE' AND o.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = s.id AND o.profileId = :profileId AND o.mediaType = 'SERIES' AND o.contextKey = :contextKey
+4	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, c.sourceId, c.sortOrder, c.name
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, c.sourceId, c.sortOrder, c.name LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, mv.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, s.name
-1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
+1	assertion	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	Provider categories changed; select them again.
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT * FROM categories WHERE id IN (:categoryIds) AND mediaType = 'LIVE'
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT * FROM channels WHERE id = :itemId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT * FROM custom_category_live_rules
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT * FROM custom_category_live_rules WHERE profileId = :profileId AND contextKey = :contextKey AND active = 1 ORDER BY ruleType, sourceId, displayName
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT * FROM custom_category_live_rules WHERE profileId = :profileId AND contextKey = :contextKey AND sourceId = :sourceId AND ruleType = :ruleType AND referenceKey = :referenceKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT CASE WHEN :type = 'LIVE' THEN (SELECT COUNT(*) FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey WHERE c.sourceId IN (:sourceIds) AND
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COUNT(*) FROM channels WHERE categoryId IN (:categoryIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COUNT(*) FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey WHERE c.sourceId IN (:sourceIds) AND (c.id IN (:itemIds) OR ((c.categoryId IN (:categoryIds) OR ((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = :contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1)))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COUNT(*) FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey WHERE c.sourceId IN (:sourceIds) AND (c.id IN (:itemIds) OR ((c.categoryId IN (:categoryIds) OR ((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = :contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))) AND c.id NOT IN (:excludedIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE :type != 'LIVE' AND profileId = :profileId AND mediaType = :type AND itemId = :itemId UNION SELECT k.contextKey FROM (SELECT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = 'LIVE' UNION SELECT contextKey FROM custom_category_live_rules WHERE profileId = :profileId AND active = 1) k JOIN channels c ON c.id = :itemId LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = k.contextKey WHERE :type = 'LIVE' AND
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type UNION SELECT contextKey FROM custom_category_live_rules WHERE :type = 'LIVE' AND profileId = :profileId AND active = 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT EXISTS(SELECT 1 FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey AND itemId = :itemId)
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey WHERE c.sourceId IN (:sourceIds) AND (c.id IN (:itemIds) OR ((c.categoryId IN (:categoryIds) OR ((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = :contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1))) ORDER BY c.sourceId, c.sortOrder, c.name
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.id AS itemId, CAST(c.sourceId AS TEXT) || ':' || COALESCE(c.remoteId, c.name) AS stableKey FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey WHERE c.sourceId IN (:sourceIds) AND ((:categoryId IS NOT NULL AND c.categoryId = :categoryId) OR (:categoryId IS NULL AND ((m.itemId IS NOT NULL OR EXISTS (SELECT 1 FROM categories g JOIN custom_category_live_rules r ON r.sourceId = g.sourceId AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END WHERE g.id = c.categoryId AND g.mediaType = 'LIVE' AND r.profileId = :profileId AND r.contextKey = :contextKey AND r.ruleType = 'GROUP' AND r.active = 1) OR EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'CHANNEL' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1 AND r.included = 1)) AND NOT EXISTS (SELECT 1 FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.sourceId = c.sourceId AND r.ruleType = 'EXCLUDE' AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END AND r.active = 1)))) ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, c.sourceId, c.sortOrder, c.name
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.id FROM channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey WHERE :type = 'LIVE' AND
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM channels WHERE sourceId IN (:sourceIds) AND categoryId IS NOT NULL GROUP BY categoryId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT contextKey, COUNT(*) AS count FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey IN (:contextKeys) AND ((:type = 'MOVIE' AND itemId IN (SELECT id FROM movies WHERE sourceId IN (:sourceIds))) OR (:type = 'SERIES' AND itemId IN (SELECT id FROM series WHERE sourceId IN (:sourceIds)))) GROUP BY contextKey
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT mv.* FROM movies mv
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT r.*, CASE WHEN r.ruleType = 'GROUP' THEN EXISTS(SELECT 1 FROM categories g WHERE g.sourceId = r.sourceId AND g.mediaType = 'LIVE' AND r.referenceKey = CASE WHEN g.remoteId IS NULL THEN 'name:' || g.name ELSE 'id:' || g.remoteId END) ELSE EXISTS(SELECT 1 FROM channels c WHERE c.sourceId = r.sourceId AND r.referenceKey = CASE WHEN c.remoteId IS NULL THEN 'name:' || c.name ELSE 'id:' || c.remoteId END) END AS available FROM custom_category_live_rules r WHERE r.profileId = :profileId AND r.contextKey = :contextKey AND r.active = 1 ORDER BY r.ruleType, r.sourceId, r.displayName
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT s.* FROM series s
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	UNION ALL
-3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	UNION ALL SELECT k.contextKey, COUNT(*) AS count FROM (SELECT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = 'LIVE' UNION SELECT contextKey FROM custom_category_live_rules WHERE profileId = :profileId AND active = 1) k CROSS JOIN channels c LEFT JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = k.contextKey WHERE :type = 'LIVE' AND k.contextKey IN (:contextKeys) AND c.sourceId IN (:sourceIds) AND
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	UNION SELECT itemId FROM custom_category_members WHERE :type != 'LIVE' AND profileId = :profileId AND mediaType = :type AND contextKey = :contextKey
+4	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds) AND
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE mv.sourceId IN (:sourceIds)
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE s.sourceId IN (:sourceIds)
+1	protocol	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	custom:
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	m.contextKey AS contextKey, m.position AS position,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT * FROM downloads WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT * FROM downloads WHERE profileId = :profileId ORDER BY createdAt DESC
@@ -1033,6 +1095,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT d.* FROM downloads d INNER JOIN episodes e ON e.id = d.itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	UPDATE downloads SET status = :status, downloadedBytes = :downloaded, totalBytes = :total, updatedAt = :timestamp WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	WHERE d.mediaType = 'EPISODE' AND e.seriesId = :seriesId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs < :to AND stopMs > :from AND (title LIKE '% vs %' OR title LIKE '% vs. %'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND title LIKE '%' || :query || '%' ORDER BY startMs ASC LIMIT :limit
@@ -1046,8 +1109,11 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE startMs > :after
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE stopMs < :before
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE epgChannelId IN (:epgKeys) AND startMs > :from - 86400000
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE startMs > :from - 86400000 AND startMs < :to AND stopMs > :from
-3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
+4	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	OR title LIKE '% - %' OR title LIKE '% – %' OR title LIKE '% — %') ORDER BY epgChannelId, startMs
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	OR title LIKE '% v %' OR title LIKE '% v. %' OR title LIKE '% versus %'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
@@ -1065,7 +1131,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
-3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
+4	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'MOVIE' AND itemId NOT IN (SELECT id FROM movies)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'SERIES' AND itemId NOT IN (SELECT id FROM series))
@@ -1519,6 +1585,13 @@
 10	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ContentEntities.kt	sortOrder
 26	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ContentEntities.kt	sourceId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ContentEntities.kt	titleSignature
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	custom_category_live_rules
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	id
+4	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	profileId
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	referenceKey
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	ruleType
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/CustomCategoryLiveRuleEntity.kt	sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/EpgEntities.kt	0
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/EpgEntities.kt	epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/EpgEntities.kt	epg_channels

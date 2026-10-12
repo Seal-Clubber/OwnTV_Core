@@ -307,6 +307,11 @@ interface ChannelDao {
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
     suspend fun snapshotAll(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
 
+    /** Complete lightweight index for list-scoped TV sports searches; never truncates membership. */
+    @Query("SELECT id, sourceId, categoryId, name, epgChannelId, remoteId FROM channels WHERE sourceId IN (:sourceIds) ORDER BY sourceId, sortOrder, name")
+    fun observeListIndex(sourceIds: List<Long>): Flow<List<ChannelListIndex>>
+
+
     /** Bounded snapshot of the Catch-up rail in provider order — the in-player category sheet's pick. */
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
     suspend fun snapshotCatchup(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
@@ -468,3 +473,6 @@ interface ChannelDao {
         limit: Int,
     ): Flow<List<ChannelWithWatchedAt>>
 }
+
+/** Searching/matching needs identity and guide metadata, not stream URLs or credentials. */
+data class ChannelListIndex(val id: Long, val sourceId: Long, val categoryId: Long?, val name: String, val epgChannelId: String?, val remoteId: String?)

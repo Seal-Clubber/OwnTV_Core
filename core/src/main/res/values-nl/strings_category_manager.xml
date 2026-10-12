@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_add_title">Toevoegen aan eigen categorie…</string>
+    <string name="category_add_description">Kies een categorie of maak er een. Providergroepen blijven beschikbaar en nieuwe zenders worden automatisch toegevoegd.</string>
+    <string name="category_add_preview">Zenders bekijken</string>
+    <string name="category_add_saving">Opslaan…</string>
+    <string name="category_add_failed">De zenderlijst is gewijzigd of de categorie kon niet worden opgeslagen. Probeer het opnieuw.</string>
+    <string name="category_add_select">Selecteren om samen te voegen</string>
+    <string name="category_add_select_all">Alle providergroepen selecteren</string>
+    <string name="category_add_clear">Selectie wissen</string>
+    <string name="category_add_manage">Bronnen en uitsluitingen — verwijder een bron of herstel een uitgesloten zender</string>
+    <string name="category_add_unavailable">Niet beschikbaar — bewaard voor volgende updates</string>
+    <string name="category_add_selection_scope">Selecteert de providergroepen die met de huidige zoekopdracht en zichtbaarheidsfilters worden getoond.</string>
+</resources>

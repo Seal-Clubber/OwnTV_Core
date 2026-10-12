@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_add_title">Özel kategoriye ekle…</string>
+    <string name="category_add_description">Bir kategori seçin veya oluşturun. Sağlayıcı grupları kullanılabilir kalır ve yeni kanallar otomatik eklenir.</string>
+    <string name="category_add_preview">Kanalları önizle</string>
+    <string name="category_add_saving">Kaydediliyor…</string>
+    <string name="category_add_failed">Kanal listesi değişti veya kategori kaydedilemedi. Lütfen tekrar deneyin.</string>
+    <string name="category_add_select">Birleştirmek için seç</string>
+    <string name="category_add_select_all">Tüm sağlayıcı gruplarını seç</string>
+    <string name="category_add_clear">Seçimi temizle</string>
+    <string name="category_add_manage">Kaynaklar ve hariç tutulanlar — bir kaynağı kaldırın veya hariç tutulan bir kanalı geri ekleyin</string>
+    <string name="category_add_unavailable">Kullanılamıyor — sonraki yenilemeler için saklandı</string>
+    <string name="category_add_selection_scope">Geçerli arama ve görünürlük filtreleriyle gösterilen sağlayıcı gruplarını seçer.</string>
+</resources>

@@ -138,6 +138,8 @@ data class SectionCustomizations(
      *  folder — that's what makes a "sidebar of only my folders" possible. Stable keys, so a re-sync
      *  that re-lists the item does not undo the move. */
     val movedFromOrigin: Map<String, String> = emptyMap(),
+    /** UUIDs are never reused: retaining deletion intent prevents stale merge restores. */
+    val deletedCustomCategories: Set<String> = emptySet(),
 ) {
     /**
      * The match lookup for this snapshot, built once and reused.
@@ -151,7 +153,7 @@ data class SectionCustomizations(
     val isEmpty: Boolean
         get() = hiddenCategories.isEmpty() && hiddenItems.isEmpty() && categoryNames.isEmpty() &&
             itemNames.isEmpty() && categoryOrder.isEmpty() && epgMatches.isEmpty() &&
-            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty()
+            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty() && deletedCustomCategories.isEmpty()
 }
 
 /**
@@ -281,6 +283,7 @@ class CustomizationStore(private val context: Context) {
         update(profileId, type) {
             it.copy(
                 customCategories = it.customCategories.filterNot { c -> c.id == id },
+                deletedCustomCategories = it.deletedCustomCategories + id,
                 hiddenCategories = it.hiddenCategories - id,
                 categoryNames = it.categoryNames - id,
                 categoryOrder = it.categoryOrder - id,
@@ -309,7 +312,12 @@ class CustomizationStore(private val context: Context) {
     suspend fun mergeAll(entries: Map<String, String>) {
         if (entries.isEmpty()) return
         context.customizeStore.edit { prefs ->
-            entries.forEach { (k, v) -> if (k.startsWith("cust_")) prefs[stringPreferencesKey(k)] = v }
+            entries.forEach { (k, v) ->
+                if (k.startsWith("cust_")) {
+                    val pref = stringPreferencesKey(k)
+                    prefs[pref] = serialize(mergeRestoredCustomCategories(parse(prefs[pref]), parse(v)))
+                }
+            }
         }
     }
 
@@ -329,6 +337,7 @@ class CustomizationStore(private val context: Context) {
                 epgShifts = o.optJSONObject("epgShift").toStringMap(),
                 customCategories = o.optJSONArray("customCats").toCustomCategories(),
                 movedFromOrigin = o.optJSONObject("movedFrom").toStringMap(),
+                deletedCustomCategories = o.optJSONArray("deletedCustomCats").toStringSet().filterTo(mutableSetOf(), CustomizeKeys::isCustom),
             )
         }.getOrDefault(SectionCustomizations())
     }
@@ -342,6 +351,7 @@ class CustomizationStore(private val context: Context) {
         put("epgMatch", JSONObject(c.epgMatches as Map<*, *>))
         put("epgShift", JSONObject(c.epgShifts as Map<*, *>))
         put("movedFrom", JSONObject(c.movedFromOrigin as Map<*, *>))
+        put("deletedCustomCats", JSONArray(c.deletedCustomCategories.toList()))
         put(
             "customCats",
             JSONArray(c.customCategories.map {
@@ -440,4 +450,16 @@ fun List<CategoryEntity>.applyCustomizationsWithCustoms(
     val (pinned, rest) = entries.partition { it.key in orderIndex }
     return pinned.sortedBy { orderIndex.getValue(it.key) } +
         (if (alphaRest) rest.sortedBy { it.displayName.lowercase() } else rest)
+}
+
+/** Restore other choices using the existing backup policy, but never resurrect a deleted UUID. */
+internal fun mergeRestoredCustomCategories(local: SectionCustomizations, incoming: SectionCustomizations): SectionCustomizations {
+    val deleted = local.deletedCustomCategories + incoming.deletedCustomCategories
+    return incoming.copy(
+        deletedCustomCategories = deleted,
+        customCategories = incoming.customCategories.filterNot { it.id in deleted },
+        hiddenCategories = incoming.hiddenCategories - deleted,
+        categoryNames = incoming.categoryNames - deleted,
+        categoryOrder = incoming.categoryOrder.filterNot { it in deleted },
+    )
 }

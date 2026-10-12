@@ -75,6 +75,7 @@ class UserDataWriter(
         itemId: Long,
     ) = db.transaction {
         userData.recordDeletion(profileId, "member", type, itemId, contextKey = contextKey)
+        if (type == MediaType.LIVE) customCategoryDao.setLiveChannelOverride(profileId, contextKey, itemId, included = false)
         customCategoryDao.deleteItem(profileId, type, contextKey, itemId)
     }
 
